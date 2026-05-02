@@ -22,6 +22,7 @@ input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; 
 .submit:hover { background: #d4a017; }
 .login-link { margin-top: 15px; font-size: 13px; color: #888; }
 .login-link a { color: #4a9edd; text-decoration: none; }
+.loading { display: none; color: #4a9edd; margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -29,42 +30,74 @@ input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; 
   <div class="logo"><span class="logo-go">GO</span><span class="logo-rd">RD</span></div>
   <h2>إنشاء حساب جديد</h2>
   <p>اشترك وابدأ تلقى إشارات التداول</p>
-  
+
   <input type="text" placeholder="الاسم الكامل" id="name" />
   <input type="email" placeholder="البريد الإلكتروني" id="email" />
   <input type="password" placeholder="كلمة المرور" id="password" />
-  
+
   <div class="plan-select">
-    <button class="plan-btn active" onclick="selectPlan(this, 'basic')">أساسي<br><small>29$/شهر</small></button>
-    <button class="plan-btn" onclick="selectPlan(this, 'pro')">احترافي<br><small>59$/شهر</small></button>
-    <button class="plan-btn" onclick="selectPlan(this, 'vip')">VIP<br><small>99$/شهر</small></button>
+    <button class="plan-btn active" onclick="selectPlan(this, 'basic', 29)">أساسي<br><small>29$/شهر</small></button>
+    <button class="plan-btn" onclick="selectPlan(this, 'pro', 59)">احترافي<br><small>59$/شهر</small></button>
+    <button class="plan-btn" onclick="selectPlan(this, 'vip', 99)">VIP<br><small>99$/شهر</small></button>
   </div>
-  
+
   <button class="submit" onclick="register()">إنشاء الحساب والدفع</button>
-  
+  <div class="loading" id="loading">جاري إنشاء رابط الدفع...</div>
+
   <div class="login-link">عندك حساب؟ <a href="#">سجل دخول</a></div>
 </div>
 
 <script>
 let selectedPlan = 'basic';
+let selectedAmount = 29;
 
-function selectPlan(btn, plan) {
+function selectPlan(btn, plan, amount) {
   document.querySelectorAll('.plan-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   selectedPlan = plan;
+  selectedAmount = amount;
 }
 
-function register() {
+async function register() {
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-  
+
   if (!name || !email || !password) {
     alert('يرجى ملء جميع الحقول');
     return;
   }
-  
-  alert('تم التسجيل! سيتم تحويلك لصفحة الدفع...');
+
+  document.getElementById('loading').style.display = 'block';
+
+  try {
+    const response = await fetch('https://api.nowpayments.io/v1/invoice', {
+      method: 'POST',
+      headers: {
+        'x-api-key': '68G8ZK8-X9940Z0-M40GC1S-DWX4FXS',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        price_amount: selectedAmount,
+        price_currency: 'usd',
+        order_description: 'GORD Trading - ' + selectedPlan,
+        success_url: 'https://gord-trading.netlify.app/success.html',
+        cancel_url: 'https://gord-trading.netlify.app/register.html'
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.invoice_url) {
+      window.location.href = data.invoice_url;
+    } else {
+      alert('خطأ في إنشاء الدفع، حاول مرة ثانية');
+      document.getElementById('loading').style.display = 'none';
+    }
+  } catch(e) {
+    alert('خطأ في الاتصال');
+    document.getElementById('loading').style.display = 'none';
+  }
 }
 </script>
 </body>
