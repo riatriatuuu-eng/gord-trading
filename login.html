@@ -7,55 +7,55 @@
 <title>GORD — تسجيل الدخول</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #e8f4fd; font-family: Arial; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-.card { background: #fff; border-radius: 16px; padding: 40px; width: 90%; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; }
-.logo { font-size: 36px; font-weight: 900; margin-bottom: 10px; }
-.logo-go { color: #f0b90b; }
-.logo-rd { color: #4a9edd; }
-h2 { color: #1a1a2e; margin-bottom: 5px; }
-p { color: #888; font-size: 14px; margin-bottom: 25px; }
-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; font-size: 14px; text-align: right; }
-.submit { width: 100%; padding: 14px; background: #f0b90b; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
-.msg { margin-top: 15px; font-size: 13px; color: #e53935; }
-.register-link { margin-top: 15px; font-size: 13px; color: #888; }
-.register-link a { color: #4a9edd; text-decoration: none; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:Arial;display:flex;justify-content:center;align-items:center;min-height:100vh}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.15}
+.card{position:relative;z-index:1;background:rgba(0,10,30,0.95);border-radius:16px;padding:40px;width:90%;max-width:400px;text-align:center;border:1px solid #1a3a5c}
+.logo{font-size:36px;font-weight:900;margin-bottom:10px}
+.go{color:#f0b90b}
+.rd{color:#4a9edd}
+h2{color:#fff;margin-bottom:5px}
+p{color:#555;font-size:14px;margin-bottom:25px}
+input{width:100%;padding:12px;border:1px solid #1a3a5c;border-radius:8px;margin-bottom:12px;font-size:14px;text-align:right;background:rgba(255,255,255,0.05);color:#fff}
+.submit{width:100%;padding:14px;background:#f0b90b;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;color:#000}
+.msg{margin-top:15px;font-size:13px;color:#e53935}
+.link{margin-top:15px;font-size:13px;color:#555}
+.link a{color:#4a9edd;text-decoration:none}
 </style>
 </head>
 <body>
+<canvas id="g"></canvas>
 <div class="card">
-  <div class="logo"><span class="logo-go">GO</span><span class="logo-rd">RD</span></div>
+  <div class="logo"><span class="go">GO</span><span class="rd">RD</span></div>
   <h2>تسجيل الدخول</h2>
   <p>ادخل بياناتك للوصول للإشارات</p>
-  <input type="email" placeholder="البريد الإلكتروني" id="email" />
-  <input type="password" placeholder="كلمة المرور" id="password" />
+  <input type="email" placeholder="البريد الإلكتروني" id="email"/>
+  <input type="password" placeholder="كلمة المرور" id="password"/>
   <button class="submit" onclick="login()">دخول</button>
   <div class="msg" id="msg"></div>
-  <div class="register-link">ما عندك حساب؟ <a href="register.html">سجل الآن</a></div>
+  <div class="link">ما عندك حساب؟ <a href="register.html">سجل الآن</a></div>
 </div>
-
 <script>
-const supabase = window.supabase.createClient(
+const c=document.getElementById('g');
+const x=c.getContext('2d');
+c.width=window.innerWidth;c.height=window.innerHeight;
+function dg(){x.clearRect(0,0,c.width,c.height);x.strokeStyle='#4a9edd';x.lineWidth=0.5;
+for(let i=0;i<c.width;i+=40){x.beginPath();x.moveTo(i,0);x.lineTo(i,c.height);x.stroke();}
+for(let i=0;i<c.height;i+=40){x.beginPath();x.moveTo(0,i);x.lineTo(c.width,i);x.stroke();}}
+dg();
+
+const sb = window.supabase.createClient(
   'https://xrjawenxsrionlowhcgc.supabase.co',
-  'sb_publishable_JTj1NmsW1Og3_qDl86PKEA_PfKqEkJS'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyamF3ZW54c3Jpb25sb3doY2djIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Nzc2ODY4NiwiZXhwIjoyMDkzMzQ0Njg2fQ.M1GyJizVUZbEoN6i1gzuEn5Vb1pNZiUubTkefHyXauY'
 );
 
-async function login() {
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  
-  if (!email || !password) {
-    document.getElementById('msg').textContent = 'يرجى ملء جميع الحقول';
-    return;
-  }
-
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  
-  if (error) {
-    document.getElementById('msg').textContent = 'بيانات خاطئة، حاول مرة ثانية';
-  } else {
-    window.location.href = 'dashboard.html';
-  }
+async function login(){
+  const email=document.getElementById('email').value;
+  const password=document.getElementById('password').value;
+  if(!email||!password){document.getElementById('msg').textContent='يرجى ملء جميع الحقول';return;}
+  const{data,error}=await sb.auth.signInWithPassword({email,password});
+  if(error){document.getElementById('msg').textContent='بيانات خاطئة، حاول مرة ثانية';}
+  else{window.location.href='dashboard.html';}
 }
 </script>
 </body>
