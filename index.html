@@ -9,10 +9,8 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #e8f4fd; color: #1a1a2e; font-family: Arial; }
 .header { background: #1a1a2e; padding: 20px; text-align: center; border-bottom: 3px solid #f0b90b; }
-.logo { font-size: 48px; font-weight: 900; display: inline-flex; align-items: center; gap: 2px; }
-.logo-go { color: #f0b90b; position: relative; }
-.logo-arrow { color: #f0b90b; font-size: 32px; margin: 0 2px; }
-.logo-net { color: #4a9edd; font-size: 28px; margin: 0 4px; opacity: 0.8; }
+.logo { font-size: 48px; font-weight: 900; }
+.logo-go { color: #f0b90b; }
 .logo-rd { color: #4a9edd; }
 .tagline { color: #888; margin-top: 8px; font-size: 14px; }
 .hero { text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; }
@@ -30,11 +28,12 @@ body { background: #e8f4fd; color: #1a1a2e; font-family: Arial; }
 .pair { font-size: 20px; font-weight: bold; color: #1a1a2e; }
 .direction-buy { background: #00c851; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 14px; }
 .direction-sell { background: #e53935; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 14px; }
-.signal-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.signal-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 .detail { text-align: center; background: #e8f4fd; padding: 10px; border-radius: 8px; }
 .detail-label { color: #888; font-size: 12px; }
 .detail-value { font-weight: bold; margin-top: 3px; color: #1a1a2e; }
 .win-rate { color: #4a9edd; }
+.signal-footer { font-size: 12px; color: #888; display: flex; justify-content: space-between; margin-top: 8px; }
 .plans { padding: 60px 20px; background: #1a1a2e; }
 .plans h2 { text-align: center; margin-bottom: 40px; font-size: 24px; color: #fff; }
 .plans-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
@@ -48,87 +47,32 @@ body { background: #e8f4fd; color: #1a1a2e; font-family: Arial; }
 .plan-features li:before { content: "✓ "; color: #4a9edd; }
 .plan-btn { background: #f0b90b; color: #000; padding: 12px 30px; border-radius: 8px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 10px; width: 100%; }
 .footer { text-align: center; padding: 30px; color: #555; background: #0a0a0a; }
+.loading { text-align: center; color: #888; padding: 20px; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="logo">
-    <span class="logo-go">GO</span>
-    <span class="logo-arrow">↗</span>
-    <span class="logo-net">⋮⋮</span>
-    <span class="logo-rd">RD</span>
-  </div>
+  <div class="logo"><span class="logo-go">GO</span><span class="logo-rd">RD</span></div>
   <div class="tagline">إشارات تداول احترافية بالذكاء الاصطناعي</div>
 </div>
 
 <div class="hero">
   <h1>تداول بذكاء مع إشارات GORD</h1>
   <p>نظام متكامل يحلل السوق كل ساعة ويرسل إشارات دقيقة للفوركس والذهب</p>
-  <a href="#plans" class="btn">ابدأ الآن</a>
+  <a href="register.html" class="btn">ابدأ الآن</a>
 </div>
 
 <div class="stats">
-  <div class="stat">
-    <div class="stat-num">+500</div>
-    <div class="stat-label">إشارة محللة</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">58%</div>
-    <div class="stat-label">نسبة نجاح الذهب</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">1:2</div>
-    <div class="stat-label">Risk:Reward</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">24/7</div>
-    <div class="stat-label">تحليل مستمر</div>
-  </div>
+  <div class="stat"><div class="stat-num">+500</div><div class="stat-label">إشارة محللة</div></div>
+  <div class="stat"><div class="stat-num">58%</div><div class="stat-label">نسبة نجاح الذهب</div></div>
+  <div class="stat"><div class="stat-num">1:2</div><div class="stat-label">Risk:Reward</div></div>
+  <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">تحليل مستمر</div></div>
 </div>
 
 <div class="signals">
   <h2>آخر الإشارات</h2>
-  <div class="signal-card">
-    <div class="signal-header">
-      <div class="pair">XAU/USD</div>
-      <div class="direction-buy">شراء</div>
-    </div>
-    <div class="signal-details">
-      <div class="detail">
-        <div class="detail-label">نسبة النجاح</div>
-        <div class="detail-value win-rate">80%</div>
-      </div>
-      <div class="detail">
-        <div class="detail-label">الهدف</div>
-        <div class="detail-value">4617</div>
-      </div>
-      <div class="detail">
-        <div class="detail-label">وقف الخسارة</div>
-        <div class="detail-value">4611</div>
-      </div>
-    </div>
-  </div>
-  <div class="signal-card">
-    <div class="signal-header">
-      <div class="pair">EUR/USD</div>
-      <div class="direction-sell">بيع</div>
-    </div>
-    <div class="signal-details">
-      <div class="detail">
-        <div class="detail-label">نسبة النجاح</div>
-        <div class="detail-value win-rate">74%</div>
-      </div>
-      <div class="detail">
-        <div class="detail-label">الهدف</div>
-        <div class="detail-value">1.16803</div>
-      </div>
-      <div class="detail">
-        <div class="detail-label">وقف الخسارة</div>
-        <div class="detail-value">1.17403</div>
-      </div>
-    </div>
-  </div>
+  <div id="signals-container"><div class="loading">جاري تحميل الإشارات...</div></div>
 </div>
 
 <div class="plans" id="plans">
@@ -142,7 +86,7 @@ body { background: #e8f4fd; color: #1a1a2e; font-family: Arial; }
         <li>تنبيهات تيليغرام</li>
         <li>TP و SL</li>
       </ul>
-      <a href="#" class="plan-btn">اشترك الآن</a>
+      <a href="register.html" class="plan-btn">اشترك الآن</a>
     </div>
     <div class="plan featured">
       <div class="plan-name">⭐ احترافي</div>
@@ -153,7 +97,7 @@ body { background: #e8f4fd; color: #1a1a2e; font-family: Arial; }
         <li>ربط الفريمات</li>
         <li>باكتيست تاريخي</li>
       </ul>
-      <a href="#" class="plan-btn">اشترك الآن</a>
+      <a href="register.html" class="plan-btn">اشترك الآن</a>
     </div>
     <div class="plan">
       <div class="plan-name">VIP</div>
@@ -164,7 +108,7 @@ body { background: #e8f4fd; color: #1a1a2e; font-family: Arial; }
         <li>تقارير أسبوعية</li>
         <li>إشارات خاصة</li>
       </ul>
-      <a href="#" class="plan-btn">اشترك الآن</a>
+      <a href="register.html" class="plan-btn">اشترك الآن</a>
     </div>
   </div>
 </div>
@@ -173,6 +117,39 @@ body { background: #e8f4fd; color: #1a1a2e; font-family: Arial; }
   <p>GORD © 2026 — جميع الحقوق محفوظة</p>
   <p style="margin-top:10px; font-size:12px;">التداول ينطوي على مخاطر. الإشارات للأغراض التعليمية فقط.</p>
 </div>
+
+<script>
+fetch('signals.json')
+  .then(r => r.json())
+  .then(signals => {
+    const container = document.getElementById('signals-container');
+    if (signals.length === 0) {
+      container.innerHTML = '<div class="loading">لا توجد إشارات حالياً</div>';
+      return;
+    }
+    container.innerHTML = signals.map(s => `
+      <div class="signal-card">
+        <div class="signal-header">
+          <div class="pair">${s.symbol}</div>
+          <div class="${s.direction === 'شراء' ? 'direction-buy' : 'direction-sell'}">${s.direction}</div>
+        </div>
+        <div class="signal-details">
+          <div class="detail"><div class="detail-label">نسبة النجاح</div><div class="detail-value win-rate">${s.score}%</div></div>
+          <div class="detail"><div class="detail-label">الهدف</div><div class="detail-value">${s.tp}</div></div>
+          <div class="detail"><div class="detail-label">وقف الخسارة</div><div class="detail-value">${s.sl}</div></div>
+        </div>
+        <div class="signal-footer">
+          <span>📐 ${s.classic}</span>
+          <span>🕯 ${s.candle}</span>
+          <span>🕐 ${s.time}</span>
+        </div>
+      </div>
+    `).join('');
+  })
+  .catch(() => {
+    document.getElementById('signals-container').innerHTML = '<div class="loading">لا توجد إشارات حالياً</div>';
+  });
+</script>
 
 </body>
 </html>

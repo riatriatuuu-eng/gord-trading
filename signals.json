@@ -1,0 +1,24 @@
+[
+  {
+    "symbol": "XAU/USD",
+    "direction": "شراء",
+    "score": 80,
+    "entry": 4613.27,
+    "sl": 4611.27,
+    "tp": 4617.27,
+    "classic": "قاع مزدوج",
+    "candle": "Hammer",
+    "time": "2026-05-03 00:09"
+  },
+  {
+    "symbol": "EUR/USD",
+    "direction": "بيع",
+    "score": 74,
+    "entry": 1.17203,
+    "sl": 1.17403,
+    "tp": 1.16803,
+    "classic": "مثلث هابط",
+    "candle": "Bearish Engulfing",
+    "time": "2026-05-03 00:09"
+  }
+]
