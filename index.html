@@ -1,210 +1,425 @@
-
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GORD — إشارات التداول</title>
+
+<title>GORD AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #000; color: #fff; font-family: Arial; overflow-x: hidden; }
 
-canvas#grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.15; }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
 
-.content { position: relative; z-index: 1; }
+body{
+background:#050816;
+overflow-x:hidden;
+color:white;
+}
 
-.header { padding: 20px; text-align: center; border-bottom: 1px solid #1a3a5c; background: rgba(0,0,0,0.8); }
-.logo { font-size: 52px; font-weight: 900; letter-spacing: 4px; }
-.logo-go { color: #f0b90b; text-shadow: 0 0 20px rgba(240,185,11,0.5); }
-.logo-arrow { color: #4a9edd; font-size: 36px; }
-.logo-rd { color: #4a9edd; text-shadow: 0 0 20px rgba(74,158,221,0.5); }
-.tagline { color: #4a9edd; margin-top: 8px; font-size: 14px; letter-spacing: 2px; }
+.bg{
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at top left,#7c3aed 0%,transparent 30%),
+radial-gradient(circle at bottom right,#06b6d4 0%,transparent 30%),
+#050816;
+z-index:-2;
+filter:blur(80px);
+opacity:0.7;
+animation:bgmove 8s infinite alternate;
+}
 
-.hero { text-align: center; padding: 80px 20px; position: relative; }
-.hero h1 { font-size: 32px; margin-bottom: 15px; color: #fff; }
-.hero p { color: #888; margin-bottom: 35px; font-size: 16px; }
-.btn { background: linear-gradient(135deg, #f0b90b, #d4a017); color: #000; padding: 16px 48px; border-radius: 8px; font-size: 16px; font-weight: bold; text-decoration: none; display: inline-block; box-shadow: 0 0 20px rgba(240,185,11,0.3); }
+@keyframes bgmove{
+0%{transform:scale(1);}
+100%{transform:scale(1.2);}
+}
 
-.stats { display: flex; justify-content: center; gap: 0; flex-wrap: wrap; border-top: 1px solid #1a3a5c; border-bottom: 1px solid #1a3a5c; background: rgba(0,10,20,0.9); }
-.stat { text-align: center; padding: 30px 40px; border-right: 1px solid #1a3a5c; }
-.stat:last-child { border-right: none; }
-.stat-num { font-size: 36px; font-weight: bold; color: #4a9edd; }
-.stat-label { color: #555; margin-top: 5px; font-size: 13px; letter-spacing: 1px; }
+.grid{
+position:fixed;
+width:100%;
+height:100%;
+background-image:
+linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+background-size:40px 40px;
+z-index:-1;
+}
 
-.signals { padding: 60px 20px; max-width: 900px; margin: 0 auto; }
-.section-title { text-align: center; margin-bottom: 40px; }
-.section-title h2 { font-size: 26px; color: #fff; }
-.section-title span { color: #4a9edd; }
-.section-title p { color: #555; margin-top: 8px; font-size: 13px; }
+.hero{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+position:relative;
+}
 
-.signal-card { background: rgba(0,10,30,0.9); border-radius: 12px; padding: 25px; margin-bottom: 20px; border: 1px solid #1a3a5c; border-right: 3px solid #4a9edd; position: relative; overflow: hidden; }
-.signal-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #4a9edd, transparent); }
-.signal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.pair { font-size: 22px; font-weight: bold; color: #fff; letter-spacing: 1px; }
-.direction-buy { background: rgba(0,200,81,0.15); color: #00c851; padding: 6px 18px; border-radius: 20px; font-size: 14px; border: 1px solid #00c851; }
-.direction-sell { background: rgba(229,57,53,0.15); color: #e53935; padding: 6px 18px; border-radius: 20px; font-size: 14px; border: 1px solid #e53935; }
-.signal-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 15px; }
-.detail { text-align: center; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid #1a3a5c; }
-.detail-label { color: #555; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
-.detail-value { font-weight: bold; margin-top: 5px; color: #fff; font-size: 15px; }
-.win-rate { color: #4a9edd; font-size: 20px; }
-.signal-footer { font-size: 12px; color: #444; display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid #1a3a5c; }
+.logo{
+font-size:64px;
+font-weight:900;
+letter-spacing:4px;
+margin-bottom:30px;
+}
 
-.lock-banner { text-align: center; background: rgba(240,185,11,0.05); border: 1px solid rgba(240,185,11,0.2); border-radius: 12px; padding: 30px; margin: 20px 0; }
-.lock-banner p { color: #888; margin-bottom: 15px; }
-.lock-banner a { background: #f0b90b; color: #000; padding: 12px 30px; border-radius: 8px; font-weight: bold; text-decoration: none; }
+.logo span{
+background:linear-gradient(90deg,#c084fc,#38bdf8);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 40px rgba(168,85,247,0.8);
+}
 
-.plans { padding: 80px 20px; background: rgba(0,5,15,0.95); }
-.plans-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 900px; margin: 40px auto 0; }
-.plan { background: rgba(0,10,30,0.9); border-radius: 16px; padding: 35px; width: 260px; text-align: center; border: 1px solid #1a3a5c; transition: transform 0.2s; }
-.plan:hover { transform: translateY(-5px); }
-.plan.featured { border: 1px solid #4a9edd; box-shadow: 0 0 30px rgba(74,158,221,0.15); }
-.plan-name { font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #888; letter-spacing: 2px; }
-.plan-price { font-size: 42px; font-weight: bold; color: #f0b90b; margin: 20px 0; }
-.plan-price span { font-size: 16px; color: #555; }
-.plan-features { list-style: none; margin: 20px 0; text-align: right; }
-.plan-features li { padding: 10px 0; color: #666; border-bottom: 1px solid #0a1a2a; font-size: 14px; }
-.plan-features li:before { content: "✦ "; color: #4a9edd; }
-.plan-btn { background: linear-gradient(135deg, #f0b90b, #d4a017); color: #000; padding: 14px 30px; border-radius: 8px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 15px; width: 100%; }
+.badge{
+padding:10px 22px;
+border:1px solid rgba(168,85,247,0.4);
+background:rgba(255,255,255,0.04);
+border-radius:999px;
+backdrop-filter:blur(10px);
+margin-bottom:25px;
+font-size:15px;
+color:#cbd5e1;
+}
 
-.footer { text-align: center; padding: 40px; color: #333; border-top: 1px solid #1a3a5c; font-size: 13px; }
+.hero h1{
+font-size:90px;
+line-height:1.1;
+font-weight:900;
+margin-bottom:20px;
+}
 
-.loading { text-align: center; color: #333; padding: 40px; letter-spacing: 2px; }
+.white{
+color:white;
+text-shadow:0 0 40px rgba(255,255,255,0.2);
+}
+
+.glow{
+background:linear-gradient(90deg,#c084fc,#38bdf8);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 50px rgba(168,85,247,0.8);
+}
+
+.hero p{
+font-size:26px;
+color:#cbd5e1;
+max-width:800px;
+line-height:1.8;
+margin-top:15px;
+}
+
+.btns{
+margin-top:40px;
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.btn{
+padding:18px 40px;
+border-radius:999px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+text-decoration:none;
+}
+
+.btn-primary{
+background:linear-gradient(90deg,#8b5cf6,#06b6d4);
+color:white;
+box-shadow:0 0 40px rgba(168,85,247,0.5);
+}
+
+.btn-primary:hover{
+transform:scale(1.07);
+}
+
+.btn-secondary{
+border:1px solid rgba(255,255,255,0.1);
+background:rgba(255,255,255,0.03);
+color:white;
+backdrop-filter:blur(10px);
+}
+
+.cards{
+margin-top:80px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+width:100%;
+max-width:1100px;
+}
+
+.card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(168,85,247,0.2);
+padding:30px;
+border-radius:28px;
+backdrop-filter:blur(18px);
+transition:0.4s;
+box-shadow:0 0 30px rgba(0,0,0,0.2);
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 50px rgba(168,85,247,0.3);
+}
+
+.icon{
+font-size:42px;
+margin-bottom:15px;
+}
+
+.card h3{
+font-size:24px;
+margin-bottom:12px;
+}
+
+.card p{
+color:#cbd5e1;
+line-height:1.7;
+}
+
+.mockup{
+margin-top:90px;
+width:100%;
+max-width:1100px;
+background:#0b1120;
+border:1px solid rgba(168,85,247,0.3);
+border-radius:35px;
+padding:25px;
+box-shadow:0 0 80px rgba(168,85,247,0.2);
+}
+
+.screen{
+height:420px;
+border-radius:25px;
+background:#020617;
+position:relative;
+overflow:hidden;
+}
+
+.chart-grid{
+position:absolute;
+width:100%;
+height:100%;
+background:
+linear-gradient(transparent 95%, rgba(255,255,255,0.05) 95%),
+linear-gradient(90deg, transparent 95%, rgba(255,255,255,0.05) 95%);
+background-size:40px 40px;
+}
+
+.chart-line{
+position:absolute;
+width:80%;
+height:4px;
+background:#8b5cf6;
+top:50%;
+left:10%;
+transform:rotate(-8deg);
+box-shadow:0 0 25px #8b5cf6;
+}
+
+.buy-box{
+position:absolute;
+top:30px;
+right:30px;
+background:#8b5cf6;
+padding:14px 30px;
+border-radius:18px;
+font-size:32px;
+font-weight:bold;
+box-shadow:0 0 30px #8b5cf6;
+}
+
+.stats{
+position:absolute;
+bottom:20px;
+left:20px;
+right:20px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+}
+
+.stat{
+background:#111827;
+padding:18px;
+border-radius:18px;
+border:1px solid rgba(168,85,247,0.2);
+}
+
+.stat h2{
+font-size:30px;
+color:#c084fc;
+}
+
+.stat span{
+color:#cbd5e1;
+}
+
+.footer{
+margin-top:60px;
+padding-bottom:50px;
+display:flex;
+gap:40px;
+justify-content:center;
+flex-wrap:wrap;
+font-size:20px;
+color:#cbd5e1;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:52px;
+}
+
+.hero p{
+font-size:20px;
+}
+
+.logo{
+font-size:42px;
+}
+
+.stats{
+grid-template-columns:1fr;
+}
+
+}
+
 </style>
 </head>
+
 <body>
 
-<canvas id="grid"></canvas>
+<div class="bg"></div>
+<div class="grid"></div>
 
-<div class="content">
+<section class="hero">
 
-<div class="header">
-  <div class="logo">
-    <span class="logo-go">GO</span><span class="logo-arrow"> ↗ </span><span class="logo-rd">RD</span>
-  </div>
-  <div class="tagline">PROFESSIONAL TRADING SIGNALS — AI POWERED</div>
+<div class="badge">
+🚀 منصة تداول مدعومة بالذكاء الاصطناعي
 </div>
 
-<div class="hero">
-  <h1>تداول بذكاء مع إشارات <span style="color:#4a9edd">GORD</span></h1>
-  <p>نظام ذكاء اصطناعي يحلل السوق كل ساعة — فوركس وذهب بدقة احترافية</p>
-  <a href="register.html" class="btn">ابدأ الآن مجاناً ↗</a>
+<div class="logo">
+<span>GORD AI</span>
 </div>
+
+<h1>
+<span class="white">نبني مستقبل</span>
+<br>
+<span class="glow">تداولك</span>
+</h1>
+
+<p>
+إشارات احترافية • تحليل لحظي • ذكاء اصطناعي • بوت تلجرام
+</p>
+
+<div class="btns">
+
+<a href="login.html" class="btn btn-primary">
+ابدأ الآن
+</a>
+
+<a href="#features" class="btn btn-secondary">
+استكشف المنصة
+</a>
+
+</div>
+
+<div class="cards" id="features">
+
+<div class="card">
+<div class="icon">🎯</div>
+<h3>إشارات دقيقة</h3>
+<p>
+تحليل احترافي بدقة عالية وإدارة مخاطر ذكية.
+</p>
+</div>
+
+<div class="card">
+<div class="icon">🤖</div>
+<h3>AI Assistant</h3>
+<p>
+مساعد تداول ذكي لتحليل السوق وإعطاء فرص مباشرة.
+</p>
+</div>
+
+<div class="card">
+<div class="icon">⚡</div>
+<h3>تحديث لحظي</h3>
+<p>
+إشارات مباشرة لحظة بلحظة طوال اليوم.
+</p>
+</div>
+
+<div class="card">
+<div class="icon">📈</div>
+<h3>تحليل السوق</h3>
+<p>
+تحليل ذكي للذهب والعملات والكريبتو.
+</p>
+</div>
+
+</div>
+
+<div class="mockup">
+
+<div class="screen">
+
+<div class="chart-grid"></div>
+
+<div class="buy-box">
+BUY
+</div>
+
+<div class="chart-line"></div>
 
 <div class="stats">
-  <div class="stat"><div class="stat-num">+500</div><div class="stat-label">SIGNALS ANALYZED</div></div>
-  <div class="stat"><div class="stat-num">58%</div><div class="stat-label">GOLD WIN RATE</div></div>
-  <div class="stat"><div class="stat-num">1:2</div><div class="stat-label">RISK REWARD</div></div>
-  <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">LIVE ANALYSIS</div></div>
+
+<div class="stat">
+<h2>92%</h2>
+<span>دقة الإشارات</span>
 </div>
 
-<div class="signals">
-  <div class="section-title">
-    <h2>آخر <span>الإشارات</span></h2>
-    <p>يتم التحديث تلقائياً كل ساعة من السوق الحقيقي</p>
-  </div>
-  <div id="signals-container"><div class="loading">LOADING SIGNALS...</div></div>
-  <div class="lock-banner">
-    <p>🔒 الإشارات الكاملة مع TP و SL متاحة للمشتركين فقط</p>
-    <a href="register.html">اشترك للوصول الكامل</a>
-  </div>
+<div class="stat">
+<h2>24/7</h2>
+<span>تحليل AI</span>
 </div>
 
-<div class="plans" id="plans">
-  <div class="section-title">
-    <h2>خطط <span style="color:#4a9edd">الاشتراك</span></h2>
-    <p>اختر الخطة المناسبة لك وابدأ التداول الذكي</p>
-  </div>
-  <div class="plans-grid">
-    <div class="plan">
-      <div class="plan-name">BASIC</div>
-      <div class="plan-price">29<span>$/mo</span></div>
-      <ul class="plan-features">
-        <li>إشارات EUR/USD</li>
-        <li>تنبيهات تيليغرام</li>
-        <li>TP و SL</li>
-      </ul>
-      <a href="register.html" class="plan-btn">اشترك الآن</a>
-    </div>
-    <div class="plan featured">
-      <div class="plan-name">PRO ⭐</div>
-      <div class="plan-price">59<span>$/mo</span></div>
-      <ul class="plan-features">
-        <li>كل الأزواج</li>
-        <li>تحليل كلاسيكي</li>
-        <li>ربط الفريمات</li>
-        <li>باكتيست تاريخي</li>
-      </ul>
-      <a href="register.html" class="plan-btn">اشترك الآن</a>
-    </div>
-    <div class="plan">
-      <div class="plan-name">VIP</div>
-      <div class="plan-price">99<span>$/mo</span></div>
-      <ul class="plan-features">
-        <li>كل مميزات PRO</li>
-        <li>دعم شخصي</li>
-        <li>تقارير أسبوعية</li>
-        <li>إشارات خاصة</li>
-      </ul>
-      <a href="register.html" class="plan-btn">اشترك الآن</a>
-    </div>
-  </div>
+<div class="stat">
+<h2>500+</h2>
+<span>إشارة شهرية</span>
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 <div class="footer">
-  <p>GORD © 2026 — ALL RIGHTS RESERVED</p>
-  <p style="margin-top:10px;">Trading involves risk. Signals are for educational purposes only.</p>
-</div>
+
+<span>📡 إشارات مباشرة</span>
+<span>🤖 ذكاء اصطناعي</span>
+<span>🔒 نظام آمن</span>
 
 </div>
 
-<script>
-const canvas = document.getElementById('grid');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-function drawGrid() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.strokeStyle = '#4a9edd';
-  ctx.lineWidth = 0.5;
-  const size = 40;
-  for (let x = 0; x < canvas.width; x += size) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-  }
-  for (let y = 0; y < canvas.height; y += size) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-  }
-}
-drawGrid();
-window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; drawGrid(); });
-
-fetch('signals.json')
-  .then(r => r.json())
-  .then(signals => {
-    const container = document.getElementById('signals-container');
-    if (!signals.length) { container.innerHTML = '<div class="loading">NO SIGNALS YET</div>'; return; }
-    container.innerHTML = signals.slice(0,4).map(s => `
-      <div class="signal-card">
-        <div class="signal-header">
-          <div class="pair">${s.symbol}</div>
-          <div class="${s.direction === 'شراء' ? 'direction-buy' : 'direction-sell'}">${s.direction}</div>
-        </div>
-        <div class="signal-details">
-          <div class="detail"><div class="detail-label">WIN RATE</div><div class="detail-value win-rate">${s.score}%</div></div>
-          <div class="detail"><div class="detail-label">TARGET</div><div class="detail-value">${s.tp}</div></div>
-          <div class="detail"><div class="detail-label">STOP LOSS</div><div class="detail-value">${s.sl}</div></div>
-        </div>
-        <div class="signal-footer">
-          <span>📐 ${s.classic}</span>
-          <span>🕯 ${s.candle}</span>
-          <span>🕐 ${s.time}</span>
-        </div>
-      </div>
-    `).join('');
-  })
-  .catch(() => { document.getElementById('signals-container').innerHTML = '<div class="loading">NO SIGNALS YET</div>'; });
-</script>
+</section>
 
 </body>
-</html>
+  </html>
