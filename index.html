@@ -19,28 +19,31 @@ font-family:'Cairo',sans-serif;
 }
 
 body{
-background:#050816;
+background:#020617;
 overflow-x:hidden;
 color:white;
 }
 
-.bg{
+#bgvid{
+position:fixed;
+right:0;
+bottom:0;
+min-width:100%;
+min-height:100%;
+object-fit:cover;
+z-index:-5;
+opacity:0.18;
+filter:blur(1px);
+}
+
+.overlay{
 position:fixed;
 width:100%;
 height:100%;
 background:
-radial-gradient(circle at top left,#7c3aed 0%,transparent 30%),
-radial-gradient(circle at bottom right,#06b6d4 0%,transparent 30%),
-#050816;
-z-index:-2;
-filter:blur(80px);
-opacity:0.7;
-animation:bgmove 8s infinite alternate;
-}
-
-@keyframes bgmove{
-0%{transform:scale(1);}
-100%{transform:scale(1.2);}
+radial-gradient(circle at top left,#8b5cf655 0%,transparent 30%),
+radial-gradient(circle at bottom right,#06b6d455 0%,transparent 30%);
+z-index:-4;
 }
 
 .grid{
@@ -51,7 +54,7 @@ background-image:
 linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
 linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
 background-size:40px 40px;
-z-index:-1;
+z-index:-3;
 }
 
 .hero{
@@ -65,34 +68,32 @@ padding:20px;
 position:relative;
 }
 
-.logo{
-font-size:64px;
-font-weight:900;
-letter-spacing:4px;
+.badge{
+padding:12px 24px;
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(168,85,247,0.25);
+border-radius:999px;
+backdrop-filter:blur(15px);
 margin-bottom:30px;
+font-size:15px;
+color:#d1d5db;
+box-shadow:0 0 25px rgba(168,85,247,0.2);
 }
 
-.logo span{
+.logo{
+font-size:70px;
+font-weight:900;
+letter-spacing:5px;
+margin-bottom:25px;
 background:linear-gradient(90deg,#c084fc,#38bdf8);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-text-shadow:0 0 40px rgba(168,85,247,0.8);
-}
-
-.badge{
-padding:10px 22px;
-border:1px solid rgba(168,85,247,0.4);
-background:rgba(255,255,255,0.04);
-border-radius:999px;
-backdrop-filter:blur(10px);
-margin-bottom:25px;
-font-size:15px;
-color:#cbd5e1;
+text-shadow:0 0 50px rgba(168,85,247,0.8);
 }
 
 .hero h1{
-font-size:90px;
-line-height:1.1;
+font-size:110px;
+line-height:1.05;
 font-weight:900;
 margin-bottom:20px;
 }
@@ -106,19 +107,19 @@ text-shadow:0 0 40px rgba(255,255,255,0.2);
 background:linear-gradient(90deg,#c084fc,#38bdf8);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-text-shadow:0 0 50px rgba(168,85,247,0.8);
+text-shadow:0 0 60px rgba(168,85,247,0.8);
 }
 
 .hero p{
-font-size:26px;
-color:#cbd5e1;
-max-width:800px;
+font-size:28px;
 line-height:1.8;
+color:#cbd5e1;
+max-width:850px;
 margin-top:15px;
 }
 
 .btns{
-margin-top:40px;
+margin-top:45px;
 display:flex;
 gap:20px;
 flex-wrap:wrap;
@@ -126,7 +127,7 @@ justify-content:center;
 }
 
 .btn{
-padding:18px 40px;
+padding:18px 45px;
 border-radius:999px;
 font-size:18px;
 font-weight:bold;
@@ -135,77 +136,79 @@ transition:0.3s;
 text-decoration:none;
 }
 
-.btn-primary{
+.primary{
 background:linear-gradient(90deg,#8b5cf6,#06b6d4);
 color:white;
-box-shadow:0 0 40px rgba(168,85,247,0.5);
+box-shadow:0 0 45px rgba(168,85,247,0.5);
 }
 
-.btn-primary:hover{
-transform:scale(1.07);
+.primary:hover{
+transform:scale(1.08);
 }
 
-.btn-secondary{
-border:1px solid rgba(255,255,255,0.1);
-background:rgba(255,255,255,0.03);
+.secondary{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
 color:white;
-backdrop-filter:blur(10px);
 }
 
 .cards{
 margin-top:80px;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 gap:25px;
 width:100%;
-max-width:1100px;
+max-width:1200px;
 }
 
 .card{
-background:rgba(255,255,255,0.04);
+background:rgba(255,255,255,0.05);
 border:1px solid rgba(168,85,247,0.2);
-padding:30px;
-border-radius:28px;
+border-radius:30px;
+padding:35px;
 backdrop-filter:blur(18px);
 transition:0.4s;
-box-shadow:0 0 30px rgba(0,0,0,0.2);
+box-shadow:0 0 40px rgba(0,0,0,0.2);
 }
 
 .card:hover{
-transform:translateY(-10px);
+transform:translateY(-12px);
 box-shadow:0 0 50px rgba(168,85,247,0.3);
 }
 
 .icon{
-font-size:42px;
-margin-bottom:15px;
+font-size:46px;
+margin-bottom:18px;
 }
 
 .card h3{
-font-size:24px;
+font-size:26px;
 margin-bottom:12px;
 }
 
 .card p{
 color:#cbd5e1;
-line-height:1.7;
+line-height:1.8;
 }
 
 .mockup{
-margin-top:90px;
+margin-top:100px;
 width:100%;
-max-width:1100px;
-background:#0b1120;
-border:1px solid rgba(168,85,247,0.3);
-border-radius:35px;
+max-width:1200px;
+background:rgba(11,17,32,0.7);
+border:1px solid rgba(168,85,247,0.2);
+border-radius:40px;
 padding:25px;
-box-shadow:0 0 80px rgba(168,85,247,0.2);
+backdrop-filter:blur(18px);
+box-shadow:0 0 90px rgba(168,85,247,0.25);
+animation:float 4s ease-in-out infinite;
 }
 
 .screen{
-height:420px;
-border-radius:25px;
+height:450px;
 background:#020617;
+border-radius:30px;
 position:relative;
 overflow:hidden;
 }
@@ -222,47 +225,48 @@ background-size:40px 40px;
 
 .chart-line{
 position:absolute;
-width:80%;
-height:4px;
+width:75%;
+height:5px;
 background:#8b5cf6;
-top:50%;
+top:55%;
 left:10%;
 transform:rotate(-8deg);
-box-shadow:0 0 25px #8b5cf6;
+box-shadow:0 0 30px #8b5cf6;
 }
 
-.buy-box{
+.buy{
 position:absolute;
-top:30px;
-right:30px;
+top:35px;
+right:35px;
 background:#8b5cf6;
-padding:14px 30px;
+padding:16px 35px;
 border-radius:18px;
-font-size:32px;
+font-size:34px;
 font-weight:bold;
-box-shadow:0 0 30px #8b5cf6;
+box-shadow:0 0 35px #8b5cf6;
 }
 
 .stats{
 position:absolute;
-bottom:20px;
-left:20px;
-right:20px;
+bottom:25px;
+left:25px;
+right:25px;
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:15px;
+gap:18px;
 }
 
 .stat{
 background:#111827;
-padding:18px;
-border-radius:18px;
+padding:20px;
+border-radius:20px;
 border:1px solid rgba(168,85,247,0.2);
 }
 
 .stat h2{
-font-size:30px;
+font-size:32px;
 color:#c084fc;
+margin-bottom:5px;
 }
 
 .stat span{
@@ -270,28 +274,40 @@ color:#cbd5e1;
 }
 
 .footer{
-margin-top:60px;
-padding-bottom:50px;
+margin-top:70px;
+padding-bottom:60px;
 display:flex;
-gap:40px;
 justify-content:center;
+gap:40px;
 flex-wrap:wrap;
 font-size:20px;
-color:#cbd5e1;
+color:#d1d5db;
+}
+
+@keyframes float{
+0%{
+transform:translateY(0px);
+}
+50%{
+transform:translateY(-15px);
+}
+100%{
+transform:translateY(0px);
+}
 }
 
 @media(max-width:768px){
 
+.logo{
+font-size:48px;
+}
+
 .hero h1{
-font-size:52px;
+font-size:58px;
 }
 
 .hero p{
 font-size:20px;
-}
-
-.logo{
-font-size:42px;
 }
 
 .stats{
@@ -305,17 +321,21 @@ grid-template-columns:1fr;
 
 <body>
 
-<div class="bg"></div>
+<video autoplay muted loop playsinline id="bgvid">
+<source src="https://cdn.coverr.co/videos/coverr-stock-market-graph-1564849957848?download=1080p" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
 <div class="grid"></div>
 
 <section class="hero">
 
 <div class="badge">
-🚀 منصة تداول مدعومة بالذكاء الاصطناعي
+🚀 منصة تداول بالذكاء الاصطناعي
 </div>
 
 <div class="logo">
-<span>GORD AI</span>
+GORD AI
 </div>
 
 <h1>
@@ -325,16 +345,16 @@ grid-template-columns:1fr;
 </h1>
 
 <p>
-إشارات احترافية • تحليل لحظي • ذكاء اصطناعي • بوت تلجرام
+إشارات احترافية • تحليل لحظي • بوت تلجرام • AI Assistant
 </p>
 
 <div class="btns">
 
-<a href="login.html" class="btn btn-primary">
+<a href="login.html" class="btn primary">
 ابدأ الآن
 </a>
 
-<a href="#features" class="btn btn-secondary">
+<a href="#features" class="btn secondary">
 استكشف المنصة
 </a>
 
@@ -346,7 +366,7 @@ grid-template-columns:1fr;
 <div class="icon">🎯</div>
 <h3>إشارات دقيقة</h3>
 <p>
-تحليل احترافي بدقة عالية وإدارة مخاطر ذكية.
+تحليل احترافي مع إدارة مخاطر ذكية.
 </p>
 </div>
 
@@ -354,7 +374,7 @@ grid-template-columns:1fr;
 <div class="icon">🤖</div>
 <h3>AI Assistant</h3>
 <p>
-مساعد تداول ذكي لتحليل السوق وإعطاء فرص مباشرة.
+ذكاء اصطناعي لتحليل السوق وإعطاء صفقات مباشرة.
 </p>
 </div>
 
@@ -362,7 +382,7 @@ grid-template-columns:1fr;
 <div class="icon">⚡</div>
 <h3>تحديث لحظي</h3>
 <p>
-إشارات مباشرة لحظة بلحظة طوال اليوم.
+إشارات فورية لحظة بلحظة طوال اليوم.
 </p>
 </div>
 
@@ -370,7 +390,7 @@ grid-template-columns:1fr;
 <div class="icon">📈</div>
 <h3>تحليل السوق</h3>
 <p>
-تحليل ذكي للذهب والعملات والكريبتو.
+تحليل الذهب والعملات والكريبتو باحترافية.
 </p>
 </div>
 
@@ -382,7 +402,7 @@ grid-template-columns:1fr;
 
 <div class="chart-grid"></div>
 
-<div class="buy-box">
+<div class="buy">
 BUY
 </div>
 
@@ -422,4 +442,4 @@ BUY
 </section>
 
 </body>
-  </html>
+</html>
